@@ -39,6 +39,30 @@ const Posts = ({ userData }) => {
     };
   }, []);
 
+  const callback = (entries) => {
+    entries.forEach((entry) => {
+      let ele = entry.target.childNodes[0];
+      ele.play().then(() => {
+        if (!ele.paused && !entry.isIntersecting) {
+          ele.pause();
+        }
+      });
+    });
+  };
+
+  let observer = new IntersectionObserver(callback, { threshold: 0.6 });
+
+  useEffect(() => {
+    const elements = document.querySelectorAll(".videos");
+    elements.forEach((elem) => {
+      observer.observe(elem);
+    });
+
+    return () => {
+      observer.disconnect();
+    }
+  }, [posts]);
+
   return (
     <>
       {posts == null || userData == null ? (
