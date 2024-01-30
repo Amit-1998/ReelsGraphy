@@ -61,7 +61,7 @@ const Posts = ({ userData }) => {
     return () => {
       observer.disconnect();
     }
-  }, [posts]);
+  }, [posts, observer]);
 
   return (
     <>

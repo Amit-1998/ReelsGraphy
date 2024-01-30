@@ -41,7 +41,6 @@ const DialogueComp = (props) => {
     >
       <div className="modal-container">
         <div className="modal-video-container">
-          {/* <VideoPost src={video} className='modal-video' /> */}
           <video autoPlay={true} muted="muted" controls>
             <source src={video} />
           </video>

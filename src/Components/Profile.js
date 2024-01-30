@@ -74,8 +74,8 @@ const Profile = () => {
                 <video muted="muted" onClick={() => openModal(post.postId)}>
                     <source src={post.postUrl} />
                 </video>
-                <Like userData={userData} postData={post} />
-                <MessageOutlinedIcon className="chat-styling"  />
+                {/* <Like userData={userData} postData={post} /> */}
+                {/* <MessageOutlinedIcon className="chat-styling"  /> */}
                 <DialogueComp open={open === post.postId} onClose={closeModal} video={post.postUrl} post={post} userData={userData} />
               </div>
             </React.Fragment>
