@@ -150,7 +150,7 @@ export default function Navbar({ userData }) {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="inherit"
+              color="black"
             >
               <MoreIcon />
             </IconButton>

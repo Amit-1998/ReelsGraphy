@@ -51,7 +51,7 @@ const DialogueComp = (props) => {
           </Card>
 
           <Card variant="outlined" className="card2">
-             <Typography style={{padding: '0.4rem'}}>{post.likes.length==0 ? '': `Liked by ${post.likes.length} users`}</Typography>
+             <Typography style={{padding: '0.4rem'}}>{post.likes?.length==0 ? '': `Liked by ${post.likes?.length} users`}</Typography>
              <div style={{display: 'flex'}}>
                  <LikedBy userData={userData} postData={post} style={{display:'flex', alignItems: 'center', justifyContent:  'center'}} />
                  <AddComment userInfo={userData} postData={post} />

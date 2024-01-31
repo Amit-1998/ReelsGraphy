@@ -34,6 +34,15 @@
     left: 143px;
     top: 93px;
 }
-/* @media only screen and (max-width: 620px){
+@media only screen and (max-width: 620px){
+    .loginWrapper{
+        display: flex;
+        flex-direction: column;
+    }
 
-} */
+    .loginCard{
+        /* padding: 1rem; */
+        max-width: 620px;
+        width: 100%;
+    }
+}
