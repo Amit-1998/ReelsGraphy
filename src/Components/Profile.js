@@ -66,7 +66,7 @@ const Profile = () => {
               </Typography>
             </div>
           </div>
-          <hr style={{marginTop: '1rem', marginBottom: '1rem'}} />
+          {/* <hr className="hrLine" style={{marginTop: '1rem', marginBottom: '1rem'}} /> */}
           <div className="profile-video-container">
           {posts.map((post, index) => (
             <React.Fragment key={index}>
