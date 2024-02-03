@@ -4,10 +4,11 @@ import { database } from "../firebase";
 import { CircularProgress } from "@material-ui/core";
 import Navbar from "./Navbar";
 import { Avatar, Typography } from "@mui/material";
-import './Profile.css';
+
+import "./Profile.css";
 import VideoPost from "./VideoPost";
 import Like from "./Like";
-import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
+import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import DialogueComp from "./DialogueComp";
 
 const Profile = () => {
@@ -18,11 +19,11 @@ const Profile = () => {
 
   const openModal = (id) => {
     setOpen(id);
-  }
-  
+  };
+
   const closeModal = () => {
-     setOpen(null);
-  }
+    setOpen(null);
+  };
 
   useEffect(() => {
     database.users.doc(id).onSnapshot((snap) => {
@@ -36,7 +37,7 @@ const Profile = () => {
         let parr = [];
         for (let i = 0; i < userData.postIds.length; i++) {
           let postData = await database.posts.doc(userData.postIds[i]).get();
-          parr.push({...postData.data(), postId: postData.id});
+          parr.push({ ...postData.data(), postId: postData.id });
         }
         setPosts(parr);
       }
@@ -48,41 +49,49 @@ const Profile = () => {
     <>
       {posts == null || userData == null ? (
         <CircularProgress />
-      ) :
-      <> 
-        <Navbar userData={userData} />
-        <div className="spacer"></div>
-        <div className="container">
+      ) : (
+        <>
+          <Navbar userData={userData} />
+          <div className="spacer"></div>
           <div className="upper-part">
-            <div className="profile-img">
-              <img src={userData.profileUrl} />
+            <div className="sectionOne">
+              <div className="profile-img">
+                <img src={userData.profileUrl} />
+              </div>
+              <div className="info">
+                <Typography>No of Posts: {userData.postIds.length}</Typography>
+                <Typography>Email: {userData.email}</Typography>
+              </div>
             </div>
-            <div className="info">
-              <Typography variant="h6">
-                No of Posts: {userData.postIds.length}
-              </Typography>
-              <Typography variant="h6">
-                Email: {userData.email}
-              </Typography>
+            <hr
+              className="hrLine"
+              style={{ marginTop: "1rem", marginBottom: "1rem" }}
+            />
+          </div>
+          <div className="container">
+            <div className="profile-video-container">
+              {posts.map((post, index) => (
+                <React.Fragment key={index}>
+                  <div className="videos">
+                    <video muted="muted" onClick={() => openModal(post.postId)}>
+                      <source src={post.postUrl} />
+                    </video>
+                    {/* <Like userData={userData} postData={post} /> */}
+                    {/* <MessageOutlinedIcon className="chat-styling"  /> */}
+                    <DialogueComp
+                      open={open === post.postId}
+                      onClose={closeModal}
+                      video={post.postUrl}
+                      post={post}
+                      userData={userData}
+                    />
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
           </div>
-          {/* <hr className="hrLine" style={{marginTop: '1rem', marginBottom: '1rem'}} /> */}
-          <div className="profile-video-container">
-          {posts.map((post, index) => (
-            <React.Fragment key={index}>
-              <div className="videos">
-                <video muted="muted" onClick={() => openModal(post.postId)}>
-                    <source src={post.postUrl} />
-                </video>
-                {/* <Like userData={userData} postData={post} /> */}
-                {/* <MessageOutlinedIcon className="chat-styling"  /> */}
-                <DialogueComp open={open === post.postId} onClose={closeModal} video={post.postUrl} post={post} userData={userData} />
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-        </div>
-      </>}
+        </>
+      )}
     </>
   );
 };
