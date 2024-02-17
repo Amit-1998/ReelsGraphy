@@ -15,6 +15,8 @@ import { makeStyles } from '@mui/styles'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthContext.js';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import './Login.css';
@@ -28,7 +30,8 @@ export default function Login() {
             textAlign: 'center'
         },
         text2: {
-            textAlign: 'center'
+            textAlign: 'center',
+            cursor: 'pointer',
         },
         card2: {
             height: '6vh',
@@ -47,12 +50,13 @@ export default function Login() {
         try {
             setError("");
             setLoading(true);
-            let res = await login(email, password);
-            console.log('res of loggedin',res);
+            await login(email, password);
+            toast.success("Loggedin Successfully !");
             setLoading(false);
             navigate('/')
         }catch(err){
             setError(err.message);
+            toast.error(`${err.message}`);
             setTimeout(() => {
                setError("");
             },2000);
@@ -60,7 +64,12 @@ export default function Login() {
         }
     }
 
+    const goToForgetPassword = () => {
+        navigate('/reset-password');
+    }
+
     return (
+        <>
         <div className="loginWrapper">
             <div className="imgcar" style={{ backgroundImage: 'url(' + mobile + ')', backgroundSize: 'cover' }}>
                 <div className="car">
@@ -93,8 +102,8 @@ export default function Login() {
                             {error}
                         </Alert>}
                         <TextField id="outlined-basic" label="Enter Email" variant="outlined" fullWidth={true} margin="dense" size='small' value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                        <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} margin="dense" size='small' value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                        <Typography className={classes.text2} color="primary" variant='subtitle1'>
+                        <TextField id="outlined-basic" label="Password" type="password" variant="outlined" fullWidth={true} margin="dense" size='small' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                        <Typography className={classes.text2} color="primary" variant='subtitle1' onClick={goToForgetPassword}>
                             Forget Password ?
                         </Typography>
                         {/* <Button color="secondary" variant="outlined" fullWidth={true} margin="dense" startIcon={<CloudUploadIcon />} component='label'>
@@ -119,5 +128,7 @@ export default function Login() {
                 </Card>
             </div>
         </div>
+        <ToastContainer position="top-center"/>
+        </>
     );
 }

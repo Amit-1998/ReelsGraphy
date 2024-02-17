@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 
 export const AuthContext = createContext();
@@ -6,6 +7,7 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [user, setUser] = useState('');
     const [loading, setLoading] = useState(false);
+    const authForget = getAuth();
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password);
@@ -17,6 +19,11 @@ export function AuthProvider({ children }) {
 
     function logout() {
         return auth.signOut();
+    }
+
+    function forgot(email){
+        console.log('forgot called');
+        return sendPasswordResetEmail(authForget, email)
     }
 
     useEffect(() => {
@@ -48,7 +55,8 @@ export function AuthProvider({ children }) {
         user,
         signup,
         login,
-        logout
+        logout,
+        forgot
     }
     console.log('store => ', store);
 
